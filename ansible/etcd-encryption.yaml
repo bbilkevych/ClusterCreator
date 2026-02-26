@@ -27,7 +27,7 @@
         src: "{{ enc_key_path }}"
       register: slurped_key
       when: key_source_node is defined
-      delegate_to: "{{ key_source_node }}"
+      delegate_to: "{{ key_source_node | default(inventory_hostname) }}"
       run_once: true
 
     - name: Set encryption key fact from existing key
