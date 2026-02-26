@@ -34,10 +34,10 @@
       register: kube_config_exists
       become: true
 
-   - name: Fail if kubeadm init has already been run
-     fail:
-       msg: "Cluster has already been bootstrapped"
-     when: kube_config_exists.stat.exists
+    - name: Fail if kubeadm init has already been run
+      fail:
+        msg: "Cluster has already been bootstrapped"
+      when: kube_config_exists.stat.exists
 
     # update and upgrade controlplane-0 node and reboot if necessary - but only if kubeadm init has not been run
     - name: Upgrade all packages to the latest version on controlplane-0
