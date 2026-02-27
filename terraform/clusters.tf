@@ -151,7 +151,7 @@ variable "clusters" {
         general = {
           count      = 2
           cores      = 8
-          memory     = 4096
+          memory     = 16384
           disks      = [
             { datastore = "local-lvm", size = 20 }
           ]
