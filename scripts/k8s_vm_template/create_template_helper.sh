@@ -27,6 +27,7 @@ echo -e "${GREEN}Removing old image if it exists...${ENDCOLOR}"
 sudo rm -f "${PROXMOX_ISO_PATH:?PROXMOX_ISO_PATH is not set}/${IMAGE_NAME:?IMAGE_NAME is not set}"* 2>/dev/null || true
 
 echo -e "${GREEN}Downloading the image to get new updates...${ENDCOLOR}"
+sudo mkdir -p "$PROXMOX_ISO_PATH"
 sudo wget --no-check-certificate -qO "$PROXMOX_ISO_PATH"/"$IMAGE_NAME" "$IMAGE_LINK"
 echo ""
 

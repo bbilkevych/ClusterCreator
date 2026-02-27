@@ -53,7 +53,7 @@ variable "clusters" {
     })
     node_classes             : map(object({
       count                  : number                                                     # Required. Number of VMs to create for this node class.
-      pve_nodes              : optional(list(string),["Citadel","Acropolis","Parthenon"]) # Optional. Nodes that this class is allowed to run on. They will be cycled through and will repeat if count > length(pve_nodes).
+      pve_nodes              : optional(list(string),["bbilkevych"]) # Optional. Nodes that this class is allowed to run on. They will be cycled through and will repeat if count > length(pve_nodes).
       machine                : optional(string, "q35")                                    # Optional. Default to "q35". Use i400fx for partial gpu pass-through.
       cpu_type               : optional(string, "x86-64-v3")                              # Optional. Default to x86-64-v3. 'host' gives the best performance and is needed for full gpu pass-through, but it can't live migrate. https://www.yinfor.com/2023/06/how-i-choose-vm-cpu-type-in-proxmox-ve.html
       cores                  : optional(number, 2)                                        # Optional. Number of cores to use.
@@ -84,7 +84,7 @@ variable "clusters" {
       kubeconfig_file_name     = "alpha.yml"
       start_on_proxmox_boot    = false
       ssh = {
-        ssh_user               = "line6"
+        ssh_user               = "homelab"
       }
       networking = {
         ipv4 = {
@@ -105,7 +105,7 @@ variable "clusters" {
           cores      = 16
           memory     = 16384
           disks      = [
-            { datastore = "local-btrfs", size = 100 }
+            { datastore = "local-lvm", size = 100 }
           ]
           start_ip   = 110
           labels = [
@@ -120,18 +120,18 @@ variable "clusters" {
       kubeconfig_file_name     = "beta.yml"
       start_on_proxmox_boot    = false
       ssh = {
-        ssh_user               = "line6"
+        ssh_user               = "homelab"
       }
       networking = {
         ipv4 = {
-          subnet_prefix        = "10.0.2"
-          gateway              = "10.0.2.1"
-          management_cidrs     = "10.0.0.0/30,10.0.60.2,10.0.50.5,10.0.50.6"
-          lb_cidrs             = "10.0.2.200/29,10.0.2.208/28,10.0.2.224/28,10.0.2.240/29,10.0.2.248/30,10.0.2.252/31"
+          subnet_prefix        = "192.168.100"
+          gateway              = "192.168.100.1"
+          management_cidrs     = "192.168.100.0/24,10.0.0.0/30,10.0.60.2,10.0.50.5,10.0.50.6"
+          lb_cidrs             = "192.168.100.200/29,192.168.100.208/28,192.168.100.224/28,192.168.100.240/29,192.168.100.248/30,192.168.100.252/31"
         }
         ipv6 = {}
         kube_vip = {
-          vip                  = "10.0.2.100"
+          vip                  = "192.168.100.100"
           vip_hostname         = "beta-api-server"
         }
       }
@@ -141,7 +141,7 @@ variable "clusters" {
           cores      = 4
           memory     = 4096
           disks      = [
-            { datastore = "local-btrfs", size = 20 }
+            { datastore = "local-lvm", size = 20 }
           ]
           start_ip   = 110
           labels = [
@@ -151,9 +151,9 @@ variable "clusters" {
         general = {
           count      = 2
           cores      = 8
-          memory     = 4096
+          memory     = 16384
           disks      = [
-            { datastore = "local-btrfs", size = 20 }
+            { datastore = "local-lvm", size = 220 }
           ]
           start_ip   = 130
           labels = [
@@ -168,7 +168,7 @@ variable "clusters" {
       kubeconfig_file_name     = "gamma.yml"
       start_on_proxmox_boot    = false
       ssh = {
-        ssh_user               = "line6"
+        ssh_user               = "homelab"
       }
       networking = {
         ipv4 = {
@@ -189,7 +189,7 @@ variable "clusters" {
           cores     = 4
           memory    = 4096
           disks     = [
-            { datastore = "local-btrfs", size = 20 }
+            { datastore = "local-lvm", size = 20 }
           ]
           start_ip = 110
           labels   = [
@@ -199,7 +199,7 @@ variable "clusters" {
         etcd = {
           count     = 3
           disks     = [
-            { datastore = "local-btrfs", size = 20 }
+            { datastore = "local-lvm", size = 20 }
           ]
           start_ip = 120
         }
@@ -208,7 +208,7 @@ variable "clusters" {
           cores     = 8
           memory    = 4096
           disks     = [
-            { datastore = "local-btrfs", size = 20 }
+            { datastore = "local-lvm", size = 20 }
           ]
           start_ip = 130
           labels   = [
@@ -217,10 +217,10 @@ variable "clusters" {
         }
         gpu = {
           count      = 2
-          pve_nodes  = [ "Acropolis", "Parthenon" ]
+          pve_nodes  = [ "bbilkevych" ]
           cpu_type   = "host"
           disks      = [
-            { datastore = "local-btrfs", size = 20 }
+            { datastore = "local-lvm", size = 20 }
           ]
           start_ip   = 190
           labels = [
