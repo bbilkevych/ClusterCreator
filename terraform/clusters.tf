@@ -153,7 +153,7 @@ variable "clusters" {
           cores      = 8
           memory     = 16384
           disks      = [
-            { datastore = "local-lvm", size = 20 }
+            { datastore = "local-lvm", size = 100 }
           ]
           start_ip   = 130
           labels = [
